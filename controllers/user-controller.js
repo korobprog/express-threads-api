@@ -5,6 +5,7 @@ const fs = require('fs');
 const Jdenticon = require('jdenticon');
 const { error } = require('console');
 const jwt = require('jsonwebtoken');
+
 require('dotenv').config();
 
 const UserController = {
