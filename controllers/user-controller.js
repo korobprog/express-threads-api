@@ -123,6 +123,7 @@ const UserController = {
         }
       }
       const user = await prisma.user.update({
+        // Изменение данных профиля
         where: { id },
         data: {
           email: email || undefined,
@@ -140,7 +141,34 @@ const UserController = {
     }
   },
   current: async (req, res) => {
-    res.send('current');
+    //Кто вошел
+    try {
+      const user = await prisma.user.findUnique({
+        where: {
+          id: req.user.userId,
+        },
+        include: {
+          followers: {
+            include: {
+              follower: true,
+            },
+          },
+          following: {
+            include: {
+              following: true,
+            },
+          },
+        },
+      });
+      if (!user) {
+        res.status(400).json({ error: 'Не удалось найти пользователя' });
+      }
+      res.json(user);
+      // return res.status(200).json(user)
+    } catch (error) {
+      console.error('Get Current Error', error);
+      res.status(500).json({ error: ' Internal server error' });
+    }
   },
 };
 
