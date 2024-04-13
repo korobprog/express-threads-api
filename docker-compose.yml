@@ -17,6 +17,6 @@ services:
       MONGO_INITDB_ROOT_USERNAME: monty
       MONGO_INITDB_ROOT_PASSWORD: pass
   react-app:
-    build: ../react-client
+    build: ../social-react-client
     ports:
-      - '80:80'
+      - '8080:8080'
