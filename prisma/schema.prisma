@@ -23,6 +23,7 @@ model User {
   comments    Comment[]
   followers   Follows[] @relation("following")
   following   Follows[] @relation("follower")
+  chats       Chat[]
 }
 
 model Follows {
@@ -58,4 +59,12 @@ model Comment {
   userId  String @db.ObjectId
   post    Post   @relation(fields: [postId], references: [id])
   postId  String @db.ObjectId
+}
+
+model Chat {
+  id        String   @id @default(auto()) @map("_id") @db.ObjectId
+  content   String
+  author    User     @relation(fields: [authorId], references: [id])
+  authorId  String   @db.ObjectId
+  createdAt DateTime @default(now())
 }

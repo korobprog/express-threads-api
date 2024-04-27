@@ -14,6 +14,11 @@ app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
 app.use(cookieParser());
 app.set('view engine', 'jade');
+// socket.io
+const http = require('http');
+const server = http.createServer(app);
+const { Server } = require('socket.io');
+const io = new Server(server);
 // Раздавать статические файлы из папки "upLoads"
 app.use('/uploads', express.static('uploads'));
 
@@ -37,6 +42,13 @@ app.use(function (err, req, res, next) {
   // render the error page
   res.status(err.status || 500);
   res.render('error');
+});
+
+io.on('connection', (socket) => {
+  console.log(`${socket.id} user connected`);
+  socket.on('disconnect', () => {
+    console.log(`${socket.id} user disconnect`);
+  });
 });
 
 module.exports = app;

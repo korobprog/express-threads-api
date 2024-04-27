@@ -7,6 +7,7 @@ const {
   CommentController,
   LikeController,
   FollowController,
+  ChatController,
 } = require('../controllers');
 const { authenticateToken } = require('../middleware/auth');
 
@@ -58,3 +59,8 @@ router.post('/likes', authenticateToken, LikeController.likePost);
 router.delete('/likes/:id', authenticateToken, LikeController.unlikePost);
 
 module.exports = router;
+
+// Чат
+router.post('/chats', authenticateToken, ChatController.createChat);
+router.get('/chats', authenticateToken, ChatController.getAllChat);
+router.get('/chats/:id', authenticateToken, ChatController.getChatById);
